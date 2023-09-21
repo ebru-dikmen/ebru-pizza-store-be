@@ -4,7 +4,6 @@ const Pizza=require('../models/pizzaModel')
 const app = express();
 
 app.get('/getallpizzas', async (req, res) => {
-	console.log('gegeg')
 	try {
 		const pizzas = await Pizza.find({});
 		res.send(pizzas);

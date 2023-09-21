@@ -1,9 +1,9 @@
 
-const express = require('express');
+const express = require("express");
 const User=require('../models/userModel')
-const app = express();
+const router = express.Router();
 
-app.post('/register', async (req, res) => {
+router.post('/register', async (req, res) => {
     const {name, email, password}=req.body;
     const newUser= new User(name, email, password);
 	try {
@@ -15,4 +15,4 @@ app.post('/register', async (req, res) => {
 });
 
 
-module.exports = app;
+module.exports = router;

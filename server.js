@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Router =  require('./routes/pizzasRoute');
+const pizzaRouter =  require('./routes/pizzasRoute');
 const userRouter =  require('./routes/userRoute');
 const Pizza =require("./models/pizzaModel");
 const app = express();
@@ -31,16 +31,13 @@ db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
   console.log("Connected successfully");
 });
-app.use(Router);
+app.use(pizzaRouter);
 app.use(userRouter);
 
-app.listen(3000, () => {
-  console.log("Server is running at port 9000");
-});
 
 
-app.get('/api/pizzas/', Router)
-app.post('/api/users', userRouter)
+app.get('/api/pizzas/', pizzaRouter)
+app.use('/api/users', userRouter)
 app.get("/", (req,res)=>{ 
     res.send("Server Working!!!!");
 
@@ -56,6 +53,6 @@ app.get("/api/getallpizzas", async (request, response) => {
       response.status(500).send(error);
     }
   });
-const port =process.env.PORT || 9000;
+const port = 9000;
 
 app.listen(port, ()=>`Server running on port`);

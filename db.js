@@ -9,7 +9,6 @@ module.exports = () => {
 		useUnifiedTopology: true,
 
 	};
-	console.log('ben geldim')
 	try {
 		mongoose.connect(mongoURL, connectionParams);
 		console.log('connected to database successfully');
