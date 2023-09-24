@@ -2,13 +2,11 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-  	
+
     name: { type: String, required: false },
-    email: { type: String, required: false },
-    password: { type: String, required: false },
-    isAdmin: { type: Boolean, require: false, default: false },
+    email: { type: String, required: false }
   },
-  { timestamps: true , _id : false }
+  { timestamps: true  }
 );
 
 const userModel = mongoose.model("users", userSchema);

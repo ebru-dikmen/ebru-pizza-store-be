@@ -2,19 +2,10 @@
 const express = require('express');
 const User=require('../models/userModel')
 const app = express();
-
 app.post('/register',  (req, res) => {
+	
 
-
-	const userData = {
-
-		name: req.body.name,
-		email: req.body.email,
-		password: req.body.password,
-		isAdmin:false
-	  }
-	  console.log(userData);
-    const newUser= new User(userData.name, userData.email, userData.password,userData.isAdmin);
+    const newUser= new User( req.body.name,  req.body.email);
 
 	try {
 		newUser.save();
@@ -24,13 +15,18 @@ app.post('/register',  (req, res) => {
 	}
 });
 app.post('/login', async (req, res) => {
-    const {mail, password} =req.body;
+    const {name} =req.body;
 
     
 	try {
-		const user= await User.find({email, password});
+		const user= await User.find({name});
 		if(user.length>0){
-			res.send('The user logged in successfully')
+
+			const currentUser={
+				name:user[0].name,
+				_id:user[0]._id
+			}
+			res.send(currentUser)
 		}else{
 			return res.status(404).json({ message: 'User login failed' });
 		}
