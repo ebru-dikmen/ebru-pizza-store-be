@@ -31,13 +31,13 @@ db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", function () {
   console.log("Connected successfully");
 });
-app.use(pizzaRouter);
-app.use(userRouter);
+
 
 
 
 app.get('/api/pizzas/', pizzaRouter)
-app.use('/api/users', userRouter)
+app.use('/api/pizzas/', pizzaRouter)
+app.use('/api/users/', userRouter)
 app.get("/", (req,res)=>{ 
     res.send("Server Working!!!!");
 

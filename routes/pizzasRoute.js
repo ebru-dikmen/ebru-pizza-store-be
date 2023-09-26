@@ -13,4 +13,60 @@ app.get('/getallpizzas', async (req, res) => {
 });
 
 
+app.post('/addpizza', async (req, res) => {
+	const pizza = req.body.pizza;
+	try {
+		const newPizza = new Pizza({
+			name: pizza.name,
+			image: pizza.image,
+			varients: ['small', 'medium', 'large'],
+			description: pizza.description,
+			category: pizza.category,
+			prices: [pizza.prices],
+		});
+		await newPizza.save();
+		res.send('New Pizza Added Successfully');
+	} catch (error) {
+		return res.status(404).json({ message: error });
+	}
+});
+
+//pizza by id
+app.post('/getpizzabyid', async (req, res) => {
+	const pizzaid = req.body.pizzaid;
+	try {
+		const pizza = await Pizza.findById(pizzaid);
+		res.send(pizza);
+	} catch (error) {
+		return res.status(404).json({ message: error });
+	}
+});
+
+//pizza by name
+app.post('/updatepizza', async (req, res) => {
+	const updatedPizza = req.body.updatedPizza;
+	try {
+		const pizza = await Pizza.findByIdAndUpdate(
+			updatedPizza._id,
+			updatedPizza,
+		);
+		res.send(pizza);
+	} catch (error) {
+		return res.status(404).json({ message: error });
+	}
+});
+
+//delete pizza
+app.post('/deletepizza', async (req, res) => {
+	const pizzaid = req.body.pizzaid;
+	try {
+		const pizza = await Pizza.findByIdAndDelete(pizzaid);
+		res.send(pizza);
+	} catch (error) {
+		return res.status(404).json({ message: error });
+	}
+});
+
+
+
 module.exports = app;

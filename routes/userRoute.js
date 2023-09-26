@@ -5,7 +5,7 @@ const app = express();
 app.post('/register',  (req, res) => {
 	
 
-    const newUser= new User( req.body.name,  req.body.email);
+    const newUser= new User( req.body.name,  req.body.email, req.body.isAdmin, req.body.password);
 
 	try {
 		newUser.save();
@@ -24,7 +24,10 @@ app.post('/login', async (req, res) => {
 
 			const currentUser={
 				name:user[0].name,
-				_id:user[0]._id
+				email:user[0].email,
+				isAdmin:user[0].isAdmin,
+				_id:user[0]._id,
+				password:user[0].password
 			}
 			res.send(currentUser)
 		}else{
@@ -33,6 +36,16 @@ app.post('/login', async (req, res) => {
         
 	} catch (error) {
 		return res.status(404).json({ message: 'Something went wrong' });
+	}
+});
+
+
+app.get('/getallusers', async (req, res) => {
+	try {
+		const users = await User.find({});
+		res.send(users);
+	} catch (error) {
+		return res.status(404).json({ message: error });
 	}
 });
 
