@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const pizzaRouter =  require('./routes/pizzasRoute');
 const userRouter =  require('./routes/userRoute');
+const orderRoute =  require('./routes/ordersRoute');
 const Pizza =require("./models/pizzaModel");
 const app = express();
 
@@ -37,6 +38,8 @@ db.once("open", function () {
 
 app.get('/api/pizzas/', pizzaRouter)
 app.use('/api/pizzas/', pizzaRouter)
+app.get('/api/order/', orderRoute)
+app.use('/api/order/', orderRoute)
 app.use('/api/users/', userRouter)
 app.get("/", (req,res)=>{ 
     res.send("Server Working!!!!");

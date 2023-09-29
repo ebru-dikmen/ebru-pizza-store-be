@@ -1,11 +1,14 @@
-
 const express = require('express');
 const User=require('../models/userModel')
 const app = express();
-app.post('/register',  (req, res) => {
-	
 
-    const newUser= new User( req.body.name,  req.body.email, req.body.isAdmin, req.body.password);
+app.post('/register',  (req, res) => {
+    const newUser= new User({
+		name:req.body.name,
+		email: req.body.email,
+		isAdmin: req.body.isAdmin,
+		password: req.body.password
+	});
 
 	try {
 		newUser.save();
@@ -14,12 +17,12 @@ app.post('/register',  (req, res) => {
 		return res.status(404).json({ message: error });
 	}
 });
-app.post('/login', async (req, res) => {
-    const {name} =req.body;
 
+app.post('/login', async (req, res) => {
+    const {name, password} = req.body;
     
 	try {
-		const user= await User.find({name});
+		const user= await User.find({name, password});
 		if(user.length>0){
 
 			const currentUser={
@@ -49,4 +52,14 @@ app.get('/getallusers', async (req, res) => {
 	}
 });
 
+
+app.post('/deleteuser', async (req, res) => {
+	const userid = req.body.userid;
+	try {
+		const user = await User.findByIdAndDelete(userid);
+		res.send(user);
+	} catch (error) {
+		return res.status(404).json({ message: error });
+	}
+});
 module.exports = app;
